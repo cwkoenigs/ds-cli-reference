@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ds-cli-reference"
+version = "0.1.0"
+description = "Reference implementation of the knowledge-system verbs, to be ported into ds-cli"
+requires-python = ">=3.10"
+dependencies = [
+    "typer",
+    "rich",
+    "pyyaml",
+    "tomli>=2.0; python_version < '3.11'",
+    "tomli-w>=1.0",
+    "mcp>=2.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "anyio"]
+
+[project.scripts]
+ds-ref = "ds_cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ds_cli"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]

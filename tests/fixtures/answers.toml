@@ -1,0 +1,11 @@
+# Answers for a non-interactive `ds new --answers`. Empty or missing keys take inferred defaults.
+purpose = "Feature store for claims models"
+owner = "ckoenigs"
+test_cmd = "uv run pytest -q"
+lint_cmd = "uv run ruff check . && uv run mypy ."
+tags = ["python", "package", "snowflake"]
+snowflake = "ANALYTICS_DB.CLAIMS"
+notes = "Uses the adjudication table, not raw claims."
+
+[declines]
+adr-014 = "Pinned to pixi until the SPCS image migration lands"
