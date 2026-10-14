@@ -27,12 +27,14 @@ Do not redesign. Decisions already made, with evidence, and not to be reopened:
 
 | Repository | Where it is | Status |
 |---|---|---|
-| ds-cli | GitHub `cwkoenigs/ds-cli`, `main` | knowledge-system verbs, 27 tests; pushed 2026-10-14 |
-| canon | GitHub `cwkoenigs/canon` (private), `main` | 18 standards split from the skills-os guidebook, all `proposed`; index builder; CI with `check_index` and `portal` jobs |
-| skills-os | GitHub `cwkoenigs/skills-os`, `main` | so-init, so-changes, so-capture, so-best-practice-audit retargeted; so-agent-setup added; pushed |
-| docs-ds | GitHub `cwkoenigs/docs-ds`, `main` | the renderer shell only; wiki, skills, templates, sync and lint removed; pushed |
-| agent-system | GitHub `cwkoenigs/agent-system` (private), `main` | dispatcher skeleton with a dry tier; GitLab queue, MR, Slack, Snowflake load are stubs |
-| platform-test | GitHub `cwkoenigs/platform-test` (private), `main` | the end-to-end test, including `bench/` for S8 |
+| ds-cli-reference | `github.com/cwkoenigs/ds-cli-reference` (public), cloned to `~/Developer/ds-cli-reference` | the knowledge-system code to port; 29 tests; this file |
+| canon | `github.com/cwkoenigs/canon` (public), cloned to `~/Developer/canon` | 18 standards, all `proposed`; index builder; CI with `check_index` and `portal` jobs |
+| docs-ds | `github.com/cwkoenigs/docs-ds` (public), cloned to `~/Developer/docs-ds` | the renderer `ds docs` calls |
+| your ds-cli | your GitLab, wherever it is checked out | unchanged until the port, which happens on a local branch you approve |
+
+Optional, only for S7 and S8: `github.com/cwkoenigs/agent-system` (the dispatcher) and
+`github.com/cwkoenigs/platform-test` (the benchmark). Both are private; skip those steps unless Clark
+gives this machine access to them.
 
 Verified on the Mac: `ds reconcile` in about 1 ms; the pre-push hook blocks only on a broken pointer or a
 malformed manifest; `ds docs` renders one repo and the portal; `ds serve-mcp` answers a real stdio client;
@@ -44,10 +46,9 @@ ds-cli itself: 18 standards apply, 0 errors.
 **Do not merge or install this branch over the team's ds-cli.** The GitLab ds-cli has diverged from this
 reference; the feature is ported into it by following `docs/PORT.md` from this reference checkout, which reads the
 real codebase, writes a plan, stops for Clark's approval, ports on a local branch, and never pushes.
-skills-os is not installed on the work machine.
 
 1. Clone this reference next to the real ds-cli: `~/Developer/ds-cli-reference`.
-2. In the real ds-cli (`~/code/ds-cli`, origin GitLab), follow `~/Developer/ds-cli-reference/docs/PORT.md`, including Clark's approval.
+2. In the real ds-cli (origin GitLab), follow `~/Developer/ds-cli-reference/docs/PORT.md`, including Clark's approval.
 3. Reinstall `ds` from that checkout (`pipx install --force -e .`) only after Clark approves the port.
 4. `ds setup` clones canon and docs-ds into `~/.ds/`. docs-ds stays its own repository; rendering happens there, never in the documented repo.
 
@@ -101,11 +102,7 @@ outside the repository.** Then start Cortex Code in the repo and ask it to call 
 Verify: the answer names ds-operations and lists its adopted standards. Record the settings path you
 found in the report; Clark needs it for the installer.
 
-### S5. (skipped) so-capture
-
-so-capture lives in skills-os, which is not installed on the work machine. Skip.
-
-### S6. The portal pipeline (1 h, partly unverified)
+### S5. The portal pipeline (1 h, partly unverified)
 
 1. Set `DOCS_SHELL_PATH` (the docs-ds GitLab path) as a CI variable on the canon project.
 2. Run the `portal` job. Verify: the `site/` artifact exists and `site/index.html` lists both repos.
@@ -115,16 +112,16 @@ so-capture lives in skills-os, which is not installed on the work machine. Skip.
 
 If the runner lacks docker or snow, stop at the artifact and say so.
 
-### S7. The dispatcher, one real task (1 h)
+### S6. (optional) The dispatcher, one real task (1 h)
 
-In agent-system: implement `GitLabQueue.pop_all` (issues labeled `agent`, token from the environment)
+Only if this machine has access to `cwkoenigs/agent-system`: clone it to `~/Developer/agent-system` and read its README first. Then implement `GitLabQueue.pop_all` (issues labeled `agent`, token from the environment)
 and the MR step in `run.py` (push the task branch, open an MR with `summary.md` as the description).
 Then, in ds-operations, create one small test-gated issue labeled `agent` and run
 `python -m dispatcher.run --once --tasks <from the queue> --tier cortex:sonnet`. Verify: one metrics
 row, one MR with a summary a person can read in ten seconds. If `cortex --print --mode code` does not
 exist in that shape, find the right invocation, fix `ladder.run_tier`, and record it.
 
-### S8. The benchmark with real runners (as long as it takes; last)
+### S7. (optional) The benchmark with real runners (as long as it takes; last)
 
 The bench is `bench/` in the platform-test repository (`cwkoenigs/platform-test`); its README is also at
 `canon/docs/design/standards-bench-README.md`. Clone it, `uv sync`, then: `bench run` for `mash` and `system` with
