@@ -8,7 +8,7 @@ goes in the report as "unverified", never as "done".
 
 ## Read first, in this order
 
-1. This file.
+1. `docs/UPDATE.md`, then this file.
 2. `docs/KNOWLEDGE_SYSTEM.md` in this repository: the verbs as they exist.
 3. In the canon repository: `README.md`, `adr/adr-000-knowledge-system.md`, then
    `docs/design/knowledge-system.md` and `docs/design/agent-system.md`.
@@ -32,7 +32,7 @@ Do not redesign. Decisions already made, with evidence, and not to be reopened:
 | docs-ds | `github.com/cwkoenigs/docs-ds` (public), cloned to `~/Developer/docs-ds` | the renderer `ds docs` calls |
 | your ds-cli | your GitLab, wherever it is checked out | unchanged until the port, which happens on a local branch you approve |
 
-Optional, only for S7 and S8: `github.com/cwkoenigs/agent-system` (the dispatcher) and
+Optional, only for S6 and S7: `github.com/cwkoenigs/agent-system` (the dispatcher) and
 `github.com/cwkoenigs/platform-test` (the benchmark). Both are private; skip those steps unless Clark
 gives this machine access to them.
 

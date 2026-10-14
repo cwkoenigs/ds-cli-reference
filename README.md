@@ -7,6 +7,9 @@ of that ds-cli and is never merged into it.
 
 ## Start here on the work machine
 
+> **Received earlier instructions?** Read [docs/UPDATE.md](docs/UPDATE.md) first: it lists what was
+> wrong and the next steps for skills-os and agent-system.
+
 ```bash
 git clone https://github.com/cwkoenigs/ds-cli-reference.git ~/Developer/ds-cli-reference
 git clone https://github.com/cwkoenigs/canon.git ~/Developer/canon
