@@ -147,6 +147,6 @@ that justifies the platform: whether curated docs plus a cheap model beats raw r
 
 ## Report
 
-Write `HANDOFF-REPORT.md` in ds-operations, under two screens: done and verified (command and its
+Write `~/Developer/HANDOFF-REPORT.md` (outside every repository; never commit it), under two screens: done and verified (command and its
 last line per step), done but unverified and why, not done and where you stopped, decisions you made
 where this file was silent, the Cortex Code settings path, and three things Clark should look at first.
